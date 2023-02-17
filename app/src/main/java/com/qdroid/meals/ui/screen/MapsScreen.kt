@@ -20,19 +20,13 @@ import com.qdroid.meals.viewmodel.MapsViewModel
 @Composable
 fun MapsScreen(
     viewModel: MapsViewModel,
-    contentPadding: PaddingValues,
-    onMarkerClicked: () -> Unit
+    contentPadding: PaddingValues
 ) {
-
     val uiState by viewModel.uiState.collectAsState()
     var listOfProducts = listOf<Meal>()
     if (uiState is UiState.Success) {
         listOfProducts = (uiState as UiState.Success).listOfProducts as List<Meal>
     }
-
-    var popupControl by remember { mutableStateOf(false) }
-
-
     val london = LatLng(51.5285582, -0.2416812)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(london, 10f)
@@ -63,8 +57,6 @@ fun MapsScreen(
                 title = meal.name,
                 snippet = meal.details
             )
-
         }
-
     }
 }

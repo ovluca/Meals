@@ -29,20 +29,4 @@ class Repository(private val apiService: ApiService) {
             emit(ApiResult.Error(e.message.toString()))
         }
     }
-
-    fun getMenu() = flow {
-        emit(ApiResult.Loading(true))
-        try {
-            val menuList = mutableListOf<Menu>()
-            for (category in apiService.getCategories().categories) {
-                val mealsByCategoryResponse =
-                    apiService.getMealsByCategoryName(categoryName = category.name)
-                val menu = Menu(category, mealsByCategoryResponse.meals)
-                menuList.add(menu)
-            }
-            emit(ApiResult.Success(menuList))
-        } catch (e: java.lang.Exception) {
-            emit(ApiResult.Error(e.message.toString()))
-        }
-    }
 }

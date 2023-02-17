@@ -10,10 +10,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.window.Popup
+import androidx.compose.ui.res.stringResource
 import com.qdroid.meals.ui.screen.MapsScreen
 import com.qdroid.meals.ui.screen.MenuScreen
-import com.qdroid.meals.ui.screen.PopUpMarker
 import com.qdroid.meals.ui.theme.MealsTheme
 import com.qdroid.meals.viewmodel.MapsViewModel
 import com.qdroid.meals.viewmodel.MenuViewModel
@@ -30,7 +29,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MealsTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
                 ) {
@@ -39,17 +37,20 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         scaffoldState = scaffoldState,
                         topBar = {
-                            TopAppBar(title = { Text(text = "Title!") }, navigationIcon = {
-                                IconButton(onClick = {
-                                    coroutineScope.launch {
-                                        scaffoldState.drawerState.open()
+                            TopAppBar(
+                                title = { Text(text = stringResource(id = R.string.app_name)) },
+                                navigationIcon = {
+                                    IconButton(onClick = {
+                                        coroutineScope.launch {
+                                            scaffoldState.drawerState.open()
+                                        }
+                                    }) {
+                                        Icon(
+                                            imageVector = Icons.Outlined.Menu,
+                                            contentDescription = null
+                                        )
                                     }
-                                }) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Menu, contentDescription = null
-                                    )
-                                }
-                            })
+                                })
                         },
                         drawerContent = {
                             MenuScreen(viewModel = menuViewModel, onMenuClick = {
@@ -61,8 +62,8 @@ class MainActivity : ComponentActivity() {
                     ) { contentPadding ->
                         MapsScreen(
                             viewModel = mapsViewModel,
-                            contentPadding = contentPadding,
-                            onMarkerClicked = { })
+                            contentPadding = contentPadding
+                        )
                     }
                 }
             }
